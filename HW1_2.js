@@ -29,13 +29,15 @@
 // Клиент Мария заказала: Суши "Калифорния" и Пиццу "Маргарита".
 // Клиент Ирина заказала: Чизкейк.
 
+
+
 // создаем необходимые объекты
 let orderNumber = 0;
 class Cook {
   constructor(name, type) {
     this.name = name;
     this.type = type;
-  }
+    }
 }
 class Meal {
   constructor(name, type) {
@@ -45,7 +47,7 @@ class Meal {
 }
 class Order {
   constructor(client, ...meals) {
-    // this.orderNumber = ++orderNumber;
+    this.orderNumber = ++orderNumber;
     this.date = new Date();
     this.client = client;
     this.meals = meals;
@@ -65,6 +67,7 @@ let listOfOrders = new Map();
 let listOfClients = new Map();
 let listOfCooks = [];
 let listOfmeals = [];
+let listOfMealsToCook = [];
 
 const cook1 = new Cook("Виктор", "Пицца");
 const cook2 = new Cook("Ольга", "Суши");
@@ -92,101 +95,74 @@ const client3 = new Client("Ирина");
 listOfClients.set("Алексей", "client1");
 listOfClients.set("Марина", "client2");
 listOfClients.set("Ирина", "client3");
+
+
+
 //создаем функции для работы с данными
 
 function makeOrder(client, ...meals) {
   let newOrder = new Order(client, meals);
-  listOfOrders.set(++orderNumber, newOrder);
-  client.listOfOrders.push(newOrder);
+  listOfOrders.set(orderNumber, meals);
+  
+  client.listOfOrders.push(orderNumber);
+
   console.log(
-    `Создан заказ номер ${newOrder.orderNumber}. ${client.name}: ${[...meals]}`
+    `Создан заказ номер ${newOrder.orderNumber}. ${client.name}: `
   );
+  for (const meal of meals) {
+    console.log(meal.name);
+    listOfMealsToCook.push([meal.name, meal.type]);
+  }
 }
+
 // • Отслеживать, какой повар готовит какое блюдо.
 function getMealsToCookByChief(chief) {
-    for (const [key, value] of listOfOrders) {
-        console.log(value.meals);
+    
+    console.log(` Повар ${chief.name} готовит: `);
+    for (const clientOrder of listOfMealsToCook) {
+               
+        if(chief.type == clientOrder[1])
+        console.log(`${clientOrder[0]} `);
+    
     }
+   
 }
+
+
 // • Записывать, какие блюда заказал каждый клиент.
 function getClientOrders(client) {
-  console.log(`Список заказов ${client.name}: `);
-  for (const order of client.listOfOrders) {
-    console.log(`${order.date} ${order.meals}`);
-  }
-}
-//удаляем завершенный заказ из списка текущих заказов, архив закахов можно посмотреть в карточке клиента
-function closeOrder(orderNumberToDelete) {
-  for (const [key, value] of listOfOrders) {
-    if (key == orderNumberToDelete) {
-      listOfOrders.delete(key);
+
+  console.log(`Клиент ${client.name} заказал: `);
+  for (const orderMeals of client.listOfOrders) { 
+    let ourMeals = listOfOrders.get(orderMeals);
+    for (const meal of ourMeals) {
+        console.log(`${meal.type} ${meal.name}`);
     }
-  }
+  }    
 }
+//удаляем завершенный заказ из списка текущих заказов, архив закахов можно посмотреть в карточке клиента - на разработке
+// function closeOrder(orderNumberToDelete) {
+//   for (const [key, value] of listOfOrders) {
+//     if (key == orderNumberToDelete) {
+//       listOfOrders.delete(key);
+//       listOfMealsToCook.delete(value);
+//     }
+//   }
+// }
 
 //test
 
-makeOrder(client1, "Пепперони", "Тирамису");
-makeOrder(client2, "Калифорния", "Маргарита");
-makeOrder(client3, "Чизкейк");
-makeOrder(client1, "Чизкейк");
+makeOrder(client1, meal2, meal5);
+makeOrder(client2, meal4, meal1);
+makeOrder(client3, meal6);
+makeOrder(client1, meal6, meal2);
+makeOrder(client3, meal4, meal1);
+makeOrder(client3, meal6);
 
 getClientOrders(client1);
 
-closeOrder(1);
-
-getMealsToCookByChief("Виктор");
-
-// console.log(listOfMealsToCook);
 // closeOrder(1);
-// console.log(listOfMealsToCook)
 
-// let orderClient = new Map();
-// // class Client {
-// //     constructo
-// // }
-// let orders = {};
-// let client = {};
-
-// // let order = new Map();
-
-// // сделаем заказ
-
-// let meals = new Map();
-// meals.set("Маргарита", "Пицца");
-// meals.set("Пепперони", "Пицца");
-// meals.set("Филадельфия", "Суши");
-// meals.set("Калифорния", "Суши");
-// meals.set("Тирамису", "Десерты");
-// meals.set("Чизкейк", "Десерты");
-// console.log(cook);
-// console.log(cook.get("Десерты"));
-
-// makeOrder("Алексей", "Пепперони", "Тирамису");
-// makeOrder("Мария", "Калифорния", "Маргарита");
-// makeOrder("Ирина", "Чизкейк");
-// orderClient.set(client, )
-// // setCooks();
-// // console.log(orders);
-// // • Отслеживать, какой повар готовит какое блюдо.
-// function makeOrder(client, ...orderedMeal) {
-//     orders[client] = orderedMeal;
-//     console.log(`Клиент ${client} заказал:`);
-//     for (const meal of orderedMeal) {
-//       console.log(` ${meals.get(meal)} ${meal}`);
-//     }
-//     console.log(`Клиент ${client} заказал: ${meals.get(orderedMeal[0])} ${[...clients.get(client)]}`);
-//     for (const [key, value] of Object.entries(orders)) {
-//         for (const onemeal of value) {
-//         // console.log(meals.get(onemeal)); //
-
-//         listOfMealsToCook[cook.get(meals.get(onemeal))] = onemeal;
-//         }
-//       }
-//   }
-// //   function setCooks() {
-
-// //      console.log(listOfMealsToCook);
-// //   }
-
-// // • Записывать, какие блюда заказал каждый клиент.
+getMealsToCookByChief(cook1);
+getMealsToCookByChief(cook2);
+getMealsToCookByChief(cook3);
