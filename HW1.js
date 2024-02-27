@@ -36,8 +36,6 @@ const musicCollection = {
         { title: "album2", artist: "artist2", year: 2003 },
         { title: "album3", artist: "artist3", year: 2014 }
     ]
-
-
 }
 
 for (const album of musicCollection.albums) {

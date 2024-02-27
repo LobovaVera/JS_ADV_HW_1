@@ -62,7 +62,6 @@ class Client {
 }
 
 //заполняем данные
-
 let listOfOrders = new Map();
 let listOfClients = new Map();
 let listOfCooks = [];
@@ -96,16 +95,11 @@ listOfClients.set("Алексей", "client1");
 listOfClients.set("Марина", "client2");
 listOfClients.set("Ирина", "client3");
 
-
-
 //создаем функции для работы с данными
-
 function makeOrder(client, ...meals) {
   let newOrder = new Order(client, meals);
   listOfOrders.set(orderNumber, meals);
-  
   client.listOfOrders.push(orderNumber);
-
   console.log(
     `Создан заказ номер ${newOrder.orderNumber}. ${client.name}: `
   );
@@ -117,15 +111,11 @@ function makeOrder(client, ...meals) {
 
 // • Отслеживать, какой повар готовит какое блюдо.
 function getMealsToCookByChief(chief) {
-    
     console.log(` Повар ${chief.name} готовит: `);
     for (const clientOrder of listOfMealsToCook) {
-               
         if(chief.type == clientOrder[1])
         console.log(`${clientOrder[0]} `);
-    
     }
-   
 }
 
 
@@ -151,7 +141,6 @@ function getClientOrders(client) {
 // }
 
 //test
-
 makeOrder(client1, meal2, meal5);
 makeOrder(client2, meal4, meal1);
 makeOrder(client3, meal6);
@@ -162,7 +151,6 @@ makeOrder(client3, meal6);
 getClientOrders(client1);
 
 // closeOrder(1);
-
 getMealsToCookByChief(cook1);
 getMealsToCookByChief(cook2);
 getMealsToCookByChief(cook3);
