@@ -34,31 +34,31 @@
 // создаем необходимые объекты
 let orderNumber = 0;
 class Cook {
-  constructor(name, type) {
-    this.name = name;
-    this.type = type;
+    constructor(name, type) {
+        this.name = name;
+        this.type = type;
     }
 }
 class Meal {
-  constructor(name, type) {
-    this.name = name;
-    this.type = type;
-  }
+    constructor(name, type) {
+        this.name = name;
+        this.type = type;
+    }
 }
 class Order {
-  constructor(client, ...meals) {
-    this.orderNumber = ++orderNumber;
-    this.date = new Date();
-    this.client = client;
-    this.meals = meals;
-    this.cooking = true;
-  }
+    constructor(client, ...meals) {
+        this.orderNumber = ++orderNumber;
+        this.date = new Date();
+        this.client = client;
+        this.meals = meals;
+        this.cooking = true;
+    }
 }
 class Client {
-  constructor(name) {
-    this.name = name;
-    this.listOfOrders = [];
-  }
+    constructor(name) {
+        this.name = name;
+        this.listOfOrders = [];
+    }
 }
 
 //заполняем данные
@@ -97,24 +97,24 @@ listOfClients.set("Ирина", "client3");
 
 //создаем функции для работы с данными
 function makeOrder(client, ...meals) {
-  let newOrder = new Order(client, meals);
-  listOfOrders.set(orderNumber, meals);
-  client.listOfOrders.push(orderNumber);
-  console.log(
-    `Создан заказ номер ${newOrder.orderNumber}. ${client.name}: `
-  );
-  for (const meal of meals) {
-    console.log(meal.name);
-    listOfMealsToCook.push([meal.name, meal.type]);
-  }
+    let newOrder = new Order(client, meals);
+    listOfOrders.set(orderNumber, meals);
+    client.listOfOrders.push(orderNumber);
+    console.log(
+        `Создан заказ номер ${newOrder.orderNumber}. ${client.name}: `
+    );
+    for (const meal of meals) {
+        console.log(meal.name);
+        listOfMealsToCook.push([meal.name, meal.type]);
+    }
 }
 
 // • Отслеживать, какой повар готовит какое блюдо.
 function getMealsToCookByChief(chief) {
     console.log(` Повар ${chief.name} готовит: `);
     for (const clientOrder of listOfMealsToCook) {
-        if(chief.type == clientOrder[1])
-        console.log(`${clientOrder[0]} `);
+        if (chief.type == clientOrder[1])
+            console.log(`${clientOrder[0]} `);
     }
 }
 
@@ -122,13 +122,13 @@ function getMealsToCookByChief(chief) {
 // • Записывать, какие блюда заказал каждый клиент.
 function getClientOrders(client) {
 
-  console.log(`Клиент ${client.name} заказал: `);
-  for (const orderMeals of client.listOfOrders) { 
-    let ourMeals = listOfOrders.get(orderMeals);
-    for (const meal of ourMeals) {
-        console.log(`${meal.type} ${meal.name}`);
+    console.log(`Клиент ${client.name} заказал: `);
+    for (const orderMeals of client.listOfOrders) {
+        let ourMeals = listOfOrders.get(orderMeals);
+        for (const meal of ourMeals) {
+            console.log(`${meal.type} ${meal.name}`);
+        }
     }
-  }    
 }
 //удаляем завершенный заказ из списка текущих заказов, архив закахов можно посмотреть в карточке клиента - на разработке
 // function closeOrder(orderNumberToDelete) {
